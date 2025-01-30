@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YumYug SuperApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mini-app {
+            transition: all 0.3s ease;
+            transform: scale(0.98);
+        }
+
+        .mini-app:hover {
+            transform: scale(1);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(120deg, #2563eb, #4f46e5, #7c3aed);
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .profile-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bottom-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="glass fixed top-0 w-full z-50 px-4 py-3">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="https://via.placeholder.com/40" alt="YumYug Logo" class="w-10 h-10 rounded-full">
+                <span class="text-white font-semibold text-xl">YumYug</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="scanBtn" class="text-white"><i class="bi bi-qr-code-scan text-2xl"></i></button>
+                <button id="searchBtn" class="text-white"><i class="bi bi-search text-2xl"></i></button>
+                <button id="notificationBtn" class="text-white relative">
+                    <i class="bi bi-bell text-2xl"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-24 px-4">
+        <!-- Profile Section -->
+        <section class="profile-section mb-6 p-4 rounded-xl">
+            <div class="flex items-center space-x-4">
+                <img src="https://via.placeholder.com/60" alt="Profile" class="w-15 h-15 rounded-full">
+                <div>
+                    <h2 class="text-white font-semibold">Welcome back, User!</h2>
+                    <p class="text-gray-300 text-sm">YumYug Premium Member</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="mb-6">
+            <h3 class="text-white font-semibold mb-3">Quick Actions</h3>
+            <div class="grid grid-cols-4 gap-3">
+                <button class="glass p-3 rounded-xl text-white text-center">
+                    <i class="bi bi-wallet2 text-2xl mb-1"></i>
+                    <p class="text-xs">Pay</p>
+                </button>
+                <button class="glass p-3 rounded-xl text-white text-center">
+                    <i class="bi bi-car-front text-2xl mb-1"></i>
+                    <p class="text-xs">Ride</p>
+                </button>
+                <button class="glass p-3 rounded-xl text-white text-center">
+                    <i class="bi bi-bag text-2xl mb-1"></i>
+                    <p class="text-xs">Shop</p>
+                </button>
+                <button class="glass p-3 rounded-xl text-white text-center">
+                    <i class="bi bi-currency-exchange text-2xl mb-1"></i>
+                    <p class="text-xs">Invest</p>
+                </button>
+            </div>
+        </section>
+
+        <!-- Mini Apps Grid -->
+        <section>
+            <h3 class="text-white font-semibold mb-3">Mini Apps</h3>
+            <div class="app-grid">
+                <!-- Food & Dining -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-egg-fried text-3xl mb-2"></i>
+                    <p class="text-sm">Food</p>
+                </div>
+                <!-- Travel -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-airplane text-3xl mb-2"></i>
+                    <p class="text-sm">Travel</p>
+                </div>
+                <!-- Health -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-heart-pulse text-3xl mb-2"></i>
+                    <p class="text-sm">Health</p>
+                </div>
+                <!-- Entertainment -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-film text-3xl mb-2"></i>
+                    <p class="text-sm">Movies</p>
+                </div>
+                <!-- Social -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-people text-3xl mb-2"></i>
+                    <p class="text-sm">Social</p>
+                </div>
+                <!-- Finance -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-graph-up text-3xl mb-2"></i>
+                    <p class="text-sm">Finance</p>
+                </div>
+                <!-- Shopping -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-cart3 text-3xl mb-2"></i>
+                    <p class="text-sm">Shopping</p>
+                </div>
+                <!-- More -->
+                <div class="mini-app glass p-4 rounded-xl text-white text-center">
+                    <i class="bi bi-grid-3x3-gap text-3xl mb-2"></i>
+                    <p class="text-sm">More</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav fixed bottom-0 w-full px-6 py-3">
+        <div class="flex justify-between items-center">
+            <button class="text-white text-center">
+                <i class="bi bi-house text-xl"></i>
+                <p class="text-xs mt-1">Home</p>
+            </button>
+            <button class="text-white text-center">
+                <i class="bi bi-compass text-xl"></i>
+                <p class="text-xs mt-1">Explore</p>
+            </button>
+            <button class="text-white text-center">
+                <div class="bg-blue-500 rounded-full p-3 -mt-8">
+                    <i class="bi bi-plus-lg text-xl"></i>
+                </div>
+            </button>
+            <button class="text-white text-center">
+                <i class="bi bi-chat text-xl"></i>
+                <p class="text-xs mt-1">Chat</p>
+            </button>
+            <button class="text-white text-center">
+                <i class="bi bi-person text-xl"></i>
+                <p class="text-xs mt-1">Profile</p>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Show loading overlay
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        // Mini App click handler
+        document.querySelectorAll('.mini-app').forEach(app => {
+            app.addEventListener('click', () => {
+                showLoading();
+                // Simulate loading time
+                setTimeout(hideLoading, 1500);
+            });
+        });
+
+        // Quick Action button handlers
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                showLoading();
+                // Simulate API call
+                setTimeout(hideLoading, 1000);
+            });
+        });
+
+        // Implement basic authentication check
+        function checkAuth() {
+            // Simulate biometric auth
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(true);
+                }, 1000);
+            });
+        }
+
+        // Initialize app
+        async function initApp() {
+            showLoading();
+            const isAuth = await checkAuth();
+            if (!isAuth) {
+                // Redirect to login
+                console.log('Authentication required');
+            }
+            hideLoading();
+        }
+
+        // Call init on load
+        window.addEventListener('load', initApp);
+
+        // Handle notifications
+        document.getElementById('notificationBtn').addEventListener('click', () => {
+            // Implement notification panel
+            alert('Notifications panel will appear here');
+        });
+
+        // Handle search
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            // Implement search functionality
+            alert('Search functionality will appear here');
+        });
+
+        // Handle QR scanner
+        document.getElementById('scanBtn').addEventListener('click', () => {
+            // Implement QR scanner
+            alert('QR Scanner will appear here');
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
